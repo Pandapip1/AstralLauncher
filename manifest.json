@@ -1,0 +1,106 @@
+{
+  "manifest_version": 1,
+  "type": "WebApp",
+  "meta": {
+    "name": "Astral Launcher",
+    "author": "Pandapip1",
+    "version": "1.0.0.0",
+    "minimum-overwolf-version": "0.187.0.1",
+    "description": "The most sus mod launcher in the history of beans",
+    "dock_button_title": "Astral Launcher",
+    "icon": "img/astral.png",
+    "icon_gray": "img/astral.png",
+    "launcher_icon": "img/astral.ico",
+    "window_icon": "img/astral.png"
+  },
+  "permissions": [
+    "Profile",
+    "FileSystem",
+    "Web",
+    "Extensions"
+  ],
+  "max_rotation_log_files": 20,
+  "data": {
+    "game_targeting": {
+      "type": "dedicated",
+      "game_ids": [
+        216521
+      ]
+    },
+    "start_window": "background",
+    "enable_top_isolation": true,
+    "windows": {
+      "background": {
+        "file": "html/background.html",
+        "background_optimization": false,
+        "is_background_page": true
+      },
+      "index": {
+        "file": "html/index.html",
+        "desktop_only": true,
+        "native_window": true,
+        "resizable": true,
+        "transparent": true,
+        "override_on_update": true,
+        "min_size": {
+          "width": 882,
+          "height": 672
+        }
+      }
+    },
+    "extra-objects": {
+      "simple-io-plugin": {
+        "file": "plugins/simple-io-plugin.dll",
+        "class": "overwolf.plugins.SimpleIOPlugin"
+      },
+      "process-manager-plugin": {
+        "file": "plugins/process_manager.dll",
+        "class": "com.overwolf.net.ProcessManager"
+      },
+      "downloader-plugin": {
+        "file": "plugins/downloader.dll",
+        "class": "com.overwolf.dwnldr.Downloader"
+      },
+      "registry-reader-plugin": {
+        "file": "plugins/RegistryReaderPlugin.dll",
+        "class": "overwolf.plugins.RegistryReader"
+      },
+      "registry-reader-result": {
+        "file": "plugins/RegistryReaderPlugin.dll",
+        "class": "overwolf.plugins.RegistryKeyReadResultx"
+      }
+    },
+    "enable_top_isolated_sites_console": false,
+    "externally_connectable": {
+      "matches": [
+        "http://*.overwolf.com",
+        "https://*.overwolf.com",
+        "https://*.google-analytics.com",
+        "http://*.google-analytics.com",
+        "https://www.googleapis.com",
+        "https://*.algolia.net",
+        "https://*.algolianet.com",
+        "https://*.pandapip1.com"
+      ]
+    },
+    "protocol_override_domains": {
+      "googlesyndication": "http"
+    },
+    "force_browser": "user",
+    "enable_osr_acceleration": true,
+    "game_events": [],
+    "disable_log_limit": false,
+    "launch_events": [],
+    "disable_dt": false,
+    "developer": {
+      "enable_auto_refresh": true,
+      "reload_delay": 5000,
+      "filter": "*.*"
+    },
+    "disable_cleanup": false,
+    "process_name": "Astral Launcher",
+    "url_protocol": {
+      "scheme": "astral"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:wght@400;700&display=swap');
+
+*,
+*:before,
+*:after {
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  overflow-x: hidden;
+}
+
+h1,
+h2 {
+  margin: 0;
+  cursor: default;
+}
+
+button {
+  padding: 0;
+  border: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+}
+
+.with-scroll {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+.nav-tab.nav-active {
+  border-bottom-color: blue;
+  border-bottom-style: solid;
+  border-bottom-width: 0.2em;
+}
+
+.nav-tab {
+  text-decoration: none !important;
+  border-bottom-color: gray;
+  border-bottom-style: solid;
+  border-bottom-width: 0.2em;
+  transition: border 0.2s ease-in-out;
+}

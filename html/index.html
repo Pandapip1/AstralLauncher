@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Astral Launcher</title>
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../css/header.css" />
+    <link rel="stylesheet" href="../css/general.css" />
+    <link rel="stylesheet" href="../vendor/algolia/satellite-min.css" /> <!-- Satellite styling 7.4.5 -->
+    <link rel="stylesheet" href="../vendor/bootstrap/bootstrap.min.css" />
+</head>
+<body class="bg-dark">
+    <div id="app">
+        <!-- APP HEADER, ALWAYS VISIBLE -->
+        <div class="sticky-top header-drag draggable">
+            <header class="app-header">
+                <img src="../img/astral.png" height="32" class="m-1" />
+                <h1>Astral Launcher <span class="badge rounded-pill bg-primary">BETA</span></h1>
+                <div class="window-controls-group">
+                    <a href="https://astral.pandapip1.com/" target="_blank" id="loginButton" class="btn btn-outline-secondary mx-5 my-1">Open Developer Portal</a>
+                    <button id="minimizeButton" class="window-control window-control-minimize m-1"></button>
+                    <button id="closeButton" class="window-control window-control-close m-1"></button>
+                </div>
+            </header>
+            <div class="text-center row pt-3 app-header">
+                <a class="col-6 text-light nav-tab pb-3" v-bind:class="{ 'nav-active': isMyMods() }" href="#" v-on:click="displayMyMods()">My Mods</a>
+                <a class="col-6 text-light nav-tab pb-3" v-bind:class="{ 'nav-active': isExplore() }" href="#" v-on:click="displayExplore()">Explore</a>
+            </div>
+        </div>
+        <!-- APP MAIN CONTENT -->
+        <main class="with-scroll d-flex">
+            <!-- MY MODS PAGE -->
+            <div class="d-flex align-items-center justify-content-center text-light p-0 m-2" v-if="isMyMods()">
+                <div class="row d-flex w-100 align-items-left justify-content-left" v-if="mods.length !== 0">
+                    <div class="col-3 p-2" v-for="mod in mods">
+                        <div class="card bg-darker mod-card">
+                            <div class="mod-image-wrapper"><img class="card-img mod-image" v-bind:src="mod.mod_image" v-bind:alt="mod.name" onerror="this.src = '../img/Promo_GhostTasks.png';"></div>
+                            <div class="card-img-overlay mod-image-overlay">
+                                <h5 class="card-title text-light">{{ mod.name }}</h5>
+                                <button type="button" class="btn btn-outline-info edit-mod-button" v-bind:mod="mod.id" v-on:click="displayEdit(mod.id)">Settings</button>
+                                <button type="button" class="btn btn-success play-button" v-bind:mod="mod.id" v-on:click="playMod(mod.id)">Play</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="mods.length === 0" class="text-center">
+                    <h3>You don't have any mods installed!</h3>
+                    <button class="btn btn-outline-info" v-on:click="displayExplore()">Explore!</button>
+                </div>
+            </div>
+            <!-- MOD EDIT PAGE -->
+            <div class="d-flex align-items-center justify-content-center text-light p-0 m-2" v-if="isEditMod()">
+                <div class="row d-flex w-100 align-items-left justify-content-left">
+                    <div class="col-7 pb-2 pe-1">
+                        <button class="btn btn-outline-secondary display-inline-block w-100 text-light" v-on:click="displayMyMods()">Back</button>
+                    </div>
+                    <div class="col-3 pb-2 px-1">
+                        <button class="btn btn-success display-inline-block w-100" v-on:click="playMod(selected_mod.id)">Play</button>
+                    </div>
+                    <div class="col-2 pb-2 ps-1">
+                        <button class="btn btn-primary display-inline-block w-100" v-on:click="openOptionsModal(selected_mod.id)">Options</button>
+                    </div>
+                    <div class="col-2">
+                        <img class="rounded-start w-100" v-bind:src="selected_mod.mod_image" v-bind:alt="selected_mod.name" onerror="this.src = '../img/Promo_GhostTasks.png';">
+                    </div>
+                    <div class="col-10">
+                        <h3 class="w-100">{{ selected_mod.name }}</h3>
+                        <h6 class="card-subtitle text-left ellipsis-wrap">By {{ selected_mod.author }}</h6>
+                        <p class="mod-short-desc pt-3">{{ selected_mod.short_description }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- EXPLORE PAGE -->
+            <div class="d-flex align-items-center justify-content-center text-light p-0 m-2" v-if="isExplore()">
+                <div class="wrapper w-100 display-block">
+                    <ais-instant-search index-name="dev_all_mods" :search-client="searchClient">
+                        <ais-search-box :class-names="{ 'ais-SearchBox-form': 'bg-dark' }"></ais-search-box>
+                        <div class="my-2 d-flex w-100 align-items-left justify-content-left">
+                            <ais-infinite-hits>
+                                <template v-slot="{ items, refinePrevious, refineNext, isLastPage, sendEvent }">
+                                    <div class="card bg-darker w-100" v-for="mod in items">
+                                        <div class="row g-0">
+                                            <div class="col-2">
+                                                <img class="rounded-start w-100" v-bind:src="mod.mod_image" v-bind:alt="mod.name" onerror="this.src = '../img/Promo_GhostTasks.png';">
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-body">
+                                                    <h4 class="card-title text-left ellipsis-wrap">{{ mod.name }}</h4>
+                                                    <h6 class="card-subtitle text-left ellipsis-wrap">By {{ mod.author }}</h6>
+                                                    <p class="card-text text-left mod-short-desc pt-3">{{ mod.short_description }}</p>
+                                                    <button type="button" class="btn btn-primary install-button" v-bind:mod="mod.id" v-on:click="installMod(mod.id)">Install</button>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-primary w-100" @click="refineNext" v-if="!isLastPage">
+                                                Show more results
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+                            </ais-infinite-hits>
+                        </div>
+                    </ais-instant-search>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../vendor/vue/vue.js"></script> <!-- VUE.JS 2.6.14 (UNMINIFIED) -->
+    <script src="../vendor/popper/popper.min.js"></script> <!-- POPPER.JS 2.11.2 -->
+    <script src="../vendor/bootstrap/bootstrap.min.js"></script> <!-- BOOTSTRAP 5.1.3 -->
+    <script src="../vendor/bs5utils/Bs5Utils.js"></script> <!-- BS5UTILS 1.0.2 --> <!-- FIXME: BS5UTILS NEEDS LICENCE!!!!! -->
+    <script src="../vendor/algolia/algoliasearch-lite.umd.js"></script> <!-- ALGOLIA SEARCH 4.5.1 -->
+    <script src="../vendor/algolia/vue-instantsearch.js"></script> <!-- VUE INSTANT SEARCH 3.4.2 -->
+    <script type="module" src="../js/main/index.js"></script>
+</body>
+</html>

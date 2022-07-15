@@ -1,0 +1,95 @@
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  min-height: 100vh;
+  font-size: 14px;
+  background-color: #f6f6f6;
+  color: black;
+}
+
+main {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+a {
+  color: inherit;
+}
+
+.bg-darker {
+  background-color: #232323 !important;
+}
+
+.edit-mod-button {
+  position: absolute;
+  top: 3%;
+  right: 2%;
+  margin: 0em;
+  padding: 0em;
+}
+
+.play-button {
+  position: absolute;
+  bottom: 2%;
+  left: 2%;
+  width: 96%;
+  margin: 0em;
+  padding: 0em;
+}
+
+.mod-image-wrapper {
+  opacity: 1;
+  padding-top: 100%;
+  transition: opacity 0.5s ease-in-out;
+  transition: filter 0.2s linear;
+}
+
+.mod-image {
+  position: absolute;
+  top: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mod-image-overlay {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.mod-card:hover .mod-image-wrapper {
+  opacity: 0.2 !important;
+  filter: blur(0.2em);
+}
+
+.mod-card:hover .mod-image-overlay {
+  opacity: 1 !important;
+}
+
+.install-button {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+}
+
+.ellipsis-wrap {
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+}
+
+.mod-short-desc {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 4;
+           line-clamp: 4;
+   -webkit-box-orient: vertical;
+}
+
+.form-floating-group input {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
